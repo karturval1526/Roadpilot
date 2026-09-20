@@ -1,0 +1,10 @@
+{
+  "name":"RoadPilot Smart Driver",
+  "short_name":"RoadPilot",
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#061018",
+  "theme_color":"#071018",
+  "description":"Asistente inteligente para conductores de reparto.",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

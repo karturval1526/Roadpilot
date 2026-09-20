@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071018">
+  <meta name="description" content="RoadPilot V4 — asistente inteligente para conductores de reparto.">
+  <title>RoadPilot V4 — Smart Driver</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <section id="authView" class="auth-view">
+    <div class="auth-glow"></div>
+    <div class="auth-card glass">
+      <div class="brand large"><span class="brand-mark">RP</span><div><b>ROAD</b>PILOT <small>SMART DRIVER</small></div></div>
+      <p class="muted">Tu centro de control para planificar, analizar y mejorar tus jornadas de reparto.</p>
+
+      <div class="auth-tabs">
+        <button class="tab active" data-auth="login">Iniciar sesión</button>
+        <button class="tab" data-auth="register">Crear cuenta</button>
+      </div>
+
+      <form id="authForm">
+        <label>Nombre <span class="register-only">(opcional)</span>
+          <input id="authName" autocomplete="name" placeholder="Tu nombre">
+        </label>
+        <label>Email
+          <input id="authEmail" type="email" required autocomplete="email" placeholder="tu@email.com">
+        </label>
+        <label>Contraseña de RoadPilot
+          <input id="authPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Mínimo 6 caracteres">
+        </label>
+        <button class="primary full" type="submit" id="authSubmit">Entrar a RoadPilot</button>
+      </form>
+      <p class="tiny">Esta edición funciona en GitHub Pages sin servidor. La cuenta demo se guarda en este dispositivo. No introduzcas aquí contraseñas de DoorDash, Uber, Uber Eats o Veho.</p>
+    </div>
+  </section>
+
+  <div id="appView" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">RP</span><div><b>ROAD</b>PILOT <small>SMART DRIVER</small></div></div>
+      <nav>
+        <button class="nav active" data-section="dashboard">⌂ <span>Dashboard</span></button>
+        <button class="nav" data-section="radar">◉ <span>Smart Radar</span></button>
+        <button class="nav" data-section="planner">▦ <span>Plan semanal</span></button>
+        <button class="nav" data-section="calculator">⌁ <span>Rentabilidad</span></button>
+        <button class="nav" data-section="zones">⌖ <span>Zonas</span></button>
+        <button class="nav" data-section="connections">↗ <span>Plataformas</span></button>
+<button class="nav premium-nav" data-section="plans">★ <span>RoadPilot Pro</span></button>
+<button class="nav" data-section="admin" id="adminNav" style="display:none">⚙ <span>Administración</span></button>
+        <button class="nav" data-section="profile">● <span>Perfil</span></button>
+      </nav>
+      <div class="side-bottom">
+        <div class="mini-status"><i></i> RoadPilot activo</div>
+        <button id="logoutBtn" class="ghost full">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn">☰</button>
+        <div>
+          <div class="eyebrow">CONTROL CENTER</div>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="top-actions">
+          <button id="notifyBtn" class="icon-btn" title="Activar alertas">🔔</button><button class="pro-pill" data-go="plans">PRO · $50/sem</button>
+          <div class="user-chip"><span id="avatar">R</span><b id="userName">Driver</b></div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section id="dashboard" class="section active">
+          <div class="hero">
+            <div>
+              <div class="eyebrow">SMART DRIVER SYSTEM</div>
+              <h2>Conduce con datos.<br><span>Gana con intención.</span></h2>
+              <p>RoadPilot organiza tu semana y te ayuda a identificar oportunidades de mayor valor.</p>
+              <button class="primary" data-go="radar">Abrir Smart Radar →</button>
+            </div>
+            <div class="hero-orb"><div class="orb-ring"></div><strong id="heroScore">--</strong><small>ROADPILOT<br>SCORE</small></div>
+          </div>
+
+
+          <div class="promo-banner">
+            <div><div class="eyebrow">ROADPILOT PRO</div><strong>Potencia tu jornada por <b>US$50/semana</b></strong><span>Radar inteligente · Plan semanal · Rentabilidad · Alertas</span></div>
+            <button class="primary" data-go="plans">Ver Pro →</button>
+          </div>
+
+          <div class="grid stats-grid">
+            <article class="stat glass"><span>Meta semanal</span><strong id="dashGoal">$0</strong><small id="dashGoalSub">Configura tu plan</small></article>
+            <article class="stat glass"><span>Planificado</span><strong id="dashHours">0h</strong><small>horas esta semana</small></article>
+            <article class="stat glass"><span>Mejor orden</span><strong id="dashBest">$0</strong><small id="dashBestSub">Agrega órdenes</small></article>
+            <article class="stat glass"><span>Promedio</span><strong id="dashRate">$0/h</strong><small>estimado</small></article>
+          </div>
+
+          <div class="grid two">
+            <article class="card glass">
+              <div class="card-head"><div><div class="eyebrow">NEXT MOVE</div><h3>Tu próxima acción</h3></div><span class="live">● LIVE</span></div>
+              <div id="nextMove" class="next-move">Configura tu zona y agrega una orden al Radar.</div>
+            </article>
+            <article class="card glass">
+              <div class="card-head"><div><div class="eyebrow">PLATFORMS</div><h3>Estado de conexiones</h3></div></div>
+              <div id="dashConnections" class="connection-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="radar" class="section">
+          <div class="section-intro"><div><div class="eyebrow">ORDER INTELLIGENCE</div><h2>Smart Radar</h2><p>Analiza órdenes que recibas legítimamente y encuentra las que mejor encajan con tus criterios.</p></div><button class="primary" id="demoOrders">Cargar ejemplos</button></div>
+          <div class="grid three">
+            <article class="card glass compact"><label>Pago mínimo<input id="minPay" type="number" step="0.5" min="0" value="15"></label></article>
+            <article class="card glass compact"><label>Máximo de millas<input id="maxMiles" type="number" step="0.5" min="0" value="8"></label></article>
+            <article class="card glass compact"><label>Score mínimo<input id="minScore" type="number" min="0" max="100" value="70"></label></article>
+          </div>
+          <article class="card glass">
+            <div class="card-head"><div><div class="eyebrow">ORDER FEED</div><h3>Órdenes detectadas</h3></div><span id="orderCount" class="badge">0</span></div>
+            <form id="orderForm" class="order-form">
+              <input id="orderPlatform" placeholder="Plataforma" value="Uber Driver">
+              <input id="orderPay" type="number" step="0.01" placeholder="Pago $">
+              <input id="orderMiles" type="number" step="0.1" placeholder="Millas">
+              <input id="orderMinutes" type="number" step="1" placeholder="Minutos">
+              <input id="orderZone" placeholder="Zona">
+              <button class="primary" type="submit">Analizar</button>
+            </form>
+            <div id="ordersList" class="orders"></div>
+          </article>
+          <div class="notice">ℹ️ Smart Radar analiza información disponible en RoadPilot. No acepta ni reclama órdenes automáticamente y no solicita contraseñas de las plataformas.</div>
+        </section>
+
+        <section id="planner" class="section">
+          <div class="section-intro"><div><div class="eyebrow">WEEK ENGINE</div><h2>Plan semanal</h2><p>Define cuándo quieres trabajar y tu objetivo diario.</p></div><button class="primary" id="savePlanner">Guardar semana</button></div>
+          <div id="plannerGrid" class="planner-grid"></div>
+          <article class="card glass summary-card">
+            <div><span>Horas planificadas</span><strong id="weekHours">0h</strong></div>
+            <div><span>Meta semanal</span><strong id="weekGoal">$0</strong></div>
+            <div><span>Meta/hora</span><strong id="weekRate">$0</strong></div>
+          </article>
+        </section>
+
+        <section id="calculator" class="section">
+          <div class="section-intro"><div><div class="eyebrow">PROFIT ENGINE</div><h2>Rentabilidad</h2><p>Calcula el valor real de una orden después del costo estimado del vehículo.</p></div></div>
+          <div class="grid two">
+            <article class="card glass">
+              <h3>Vehículo y costos</h3>
+              <div class="form-grid">
+                <label>MPG / km por litro<input id="vehicleEfficiency" type="number" step="0.1" value="25"></label>
+                <label>Precio combustible $/galón<input id="fuelPrice" type="number" step="0.01" value="3.50"></label>
+                <label>Costo mantenimiento $/milla<input id="maintCost" type="number" step="0.01" value="0.12"></label>
+                <label>Otros costos $/hora<input id="otherCost" type="number" step="0.01" value="1"></label>
+              </div>
+              <button class="primary" id="saveVehicle">Guardar vehículo</button>
+            </article>
+            <article class="card glass calculator-result">
+              <div class="eyebrow">LIVE ESTIMATE</div>
+              <strong id="calcNet">$0.00</strong>
+              <span>ganancia neta estimada</span>
+              <div class="calc-row"><span>Pago</span><b id="calcPay">$0</b></div>
+              <div class="calc-row"><span>Combustible</span><b id="calcFuel">$0</b></div>
+              <div class="calc-row"><span>Mantenimiento</span><b id="calcMaint">$0</b></div>
+              <div class="calc-row"><span>Otros</span><b id="calcOther">$0</b></div>
+              <label class="calc-input">Prueba una orden<input id="calcPayInput" type="number" value="25" step="0.01"></label>
+              <label class="calc-input">Millas<input id="calcMilesInput" type="number" value="7" step="0.1"></label>
+              <label class="calc-input">Minutos<input id="calcMinutesInput" type="number" value="35"></label>
+            </article>
+          </div>
+        </section>
+
+        <section id="zones" class="section">
+          <div class="section-intro"><div><div class="eyebrow">GEOFENCE</div><h2>Mis zonas</h2><p>Guarda las zonas donde quieres analizar oportunidades.</p></div></div>
+          <article class="card glass">
+            <form id="zoneForm" class="zone-form"><input id="zoneName" placeholder="Ej. Downtown / Centro"><input id="zoneRadius" type="number" min="1" value="5" placeholder="Radio km"><button class="primary">Agregar zona</button></form>
+            <div id="zonesList" class="zones-list"></div>
+          </article>
+        </section>
+
+        <section id="connections" class="section">
+          <div class="section-intro"><div><div class="eyebrow">ACCOUNT BRIDGE</div><h2>Plataformas</h2><p>Gestiona qué plataformas utilizas. Las credenciales de las plataformas no se guardan en RoadPilot.</p></div></div>
+          <div id="platformCards" class="platform-grid"></div>
+          <div class="notice">🔐 Para una conexión real con una plataforma, RoadPilot debe utilizar el método oficial de autorización/API que esa plataforma permita. Nunca compartas tu contraseña de reparto con una página estática.</div>
+        </section>
+
+
+        <section id="plans" class="section">
+          <div class="pricing-hero">
+            <div class="pricing-copy">
+              <div class="eyebrow">ROADPILOT PRO</div>
+              <h2>Más control.<br><span>Más oportunidades.</span></h2>
+              <p>Todo lo que necesitas para organizar tus jornadas, analizar oportunidades y controlar tus números desde una sola pantalla.</p>
+              <div class="price-row"><strong>US$50</strong><span>/ semana</span></div>
+              <button class="primary big" id="subscribeBtn">Elegir RoadPilot Pro →</button>
+              <small>Precio promocional mostrado en esta versión. El cobro real requiere integrar un proveedor de pagos.</small>
+            </div>
+            <div class="price-card">
+              <div class="popular">ROADPILOT PRO</div>
+              <div class="price">$50<span>/semana</span></div>
+              <div class="price-note">US$50 por período semanal</div>
+              <ul>
+                <li>✓ Smart Radar y Score 0–100</li>
+                <li>✓ Planificador semanal</li>
+                <li>✓ Calculadora de rentabilidad</li>
+                <li>✓ Zonas y preferencias</li>
+                <li>✓ Alertas del navegador</li>
+                <li>✓ Dashboard de conductor</li>
+                <li>✓ Preparado para sincronización en la nube</li>
+              </ul>
+              <button class="primary full" id="subscribeBtn2">Quiero Pro</button>
+            </div>
+          </div>
+
+          <div class="pricing-note card glass">
+            <b>🔐 Seguridad de cuentas</b>
+            <span>RoadPilot no guarda contraseñas de DoorDash, Uber, Uber Eats o Veho. Las conexiones reales deben realizarse mediante los mecanismos oficiales de cada plataforma.</span>
+          </div>
+        </section>
+
+        
+<section id="admin" class="section">
+  <div class="section-intro"><div><div class="eyebrow">OWNER CONSOLE</div><h2>Administración</h2><p>Vista de clientes y estado de suscripciones. Solo visible para administradores.</p></div></div>
+  <div class="grid stats-grid">
+    <article class="stat glass"><span>Clientes</span><strong id="adminUsers">0</strong><small>perfiles registrados</small></article>
+    <article class="stat glass"><span>Pro activos</span><strong id="adminPro">0</strong><small>suscripciones activas</small></article>
+    <article class="stat glass"><span>Conexiones</span><strong id="adminConnections">0</strong><small>plataformas configuradas</small></article>
+    <article class="stat glass"><span>Radar</span><strong id="adminOrders">0</strong><small>órdenes almacenadas</small></article>
+  </div>
+  <article class="card glass"><div class="card-head"><div><div class="eyebrow">CUSTOMERS</div><h3>Clientes RoadPilot</h3></div><button class="ghost" id="refreshAdmin">Actualizar</button></div><div id="adminTable" class="orders"></div></article>
+</section>
+
+        <section id="profile" class="section">
+          <div class="section-intro"><div><div class="eyebrow">DRIVER ID</div><h2>Mi perfil</h2><p>Datos de tu cuenta RoadPilot y preferencias.</p></div></div>
+          <article class="card glass profile-card">
+            <div class="profile-avatar" id="profileAvatar">R</div>
+            <div class="form-grid">
+              <label>Nombre<input id="profileName"></label>
+              <label>Email<input id="profileEmail" type="email"></label>
+              <label>Objetivo diario $<input id="dailyGoal" type="number" value="150"></label>
+              <label>Objetivo semanal $<input id="weeklyGoal" type="number" value="900"></label>
+            </div>
+            <button class="primary" id="saveProfile">Guardar perfil</button>
+            <button class="danger ghost" id="resetData">Restablecer datos de esta cuenta</button>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
