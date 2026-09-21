@@ -1,9 +1,0 @@
-{
-  "name": "RoadPilot — Uber Driver + Eats",
-  "short_name": "RoadPilot",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#020806",
-  "theme_color": "#00ff73",
-  "description": "RoadPilot ayuda a identificar oportunidades de alto valor y pocas millas."
-}
