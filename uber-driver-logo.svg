@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Uber Driver">
+  <rect width="512" height="512" rx="112" fill="#000"/>
+  <rect x="18" y="18" width="476" height="476" rx="98" fill="none" stroke="#00ff73" stroke-width="8" opacity=".9"/>
+  <text x="256" y="238" text-anchor="middle" fill="#fff" font-family="Arial,Helvetica,sans-serif" font-size="104" font-weight="700" letter-spacing="-5">Uber</text>
+  <rect x="108" y="286" width="296" height="78" rx="39" fill="#00ff73"/>
+  <text x="256" y="339" text-anchor="middle" fill="#00150b" font-family="Arial,Helvetica,sans-serif" font-size="43" font-weight="800" letter-spacing="2">DRIVER</text>
+</svg>
