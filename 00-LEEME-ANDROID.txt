@@ -1,0 +1,23 @@
+ROADPILOT — PAQUETE FÁCIL PARA GITHUB PAGES DESDE ANDROID
+
+1. Descarga este ZIP.
+2. En Android ábrelo con ZArchiver y elige "Extraer aquí".
+3. Abre la carpeta extraída "RoadPilot-Android-GitHub-Pages".
+4. En GitHub abre tu repositorio y toca "Add file" > "Upload files".
+5. Selecciona TODO lo que está DENTRO de esta carpeta.
+6. IMPORTANTE: index.html debe quedar directamente en la raíz del repositorio.
+
+ESTRUCTURA CORRECTA:
+index.html
+privacy.html
+supabase-config.js
+README.md
+roadpilot-uber-only.sql
+supabase/
+
+NO subas el ZIP dentro de GitHub.
+
+Para activar GitHub Pages:
+Settings > Pages > Deploy from a branch > main > /(root) > Save.
+
+El archivo supabase-config.js contiene configuración pública del cliente.
